@@ -1,0 +1,32 @@
+<template>
+    <div class={cssClass} onclick={handleOpenFileClick}>
+        <div class="img-wrapper">
+            <template if:false={isError}>
+                <!-- <img src="https://demo.pdftron.com/data/Thumbs/Fetched/jKDYDnP4GUYwnawLaG48vnuTk1CY9D4h47Qj-_VCTDw=Chart_.Vector.pdf.jpg" alt="Chart_.Vector.pdf"> -->
+                <img src={thumbUrl} alt={altFilename} onerror={handleImageError}>
+                <div class="border"></div>
+                <template if:true={isLoading}>
+                    <div class="slds-spinner_container">
+                        <div role="status" class="slds-spinner slds-spinner_x-small">
+                            <span class="slds-assistive-text">Loading</span>
+                            <div class="slds-spinner__dot-a"></div>
+                            <div class="slds-spinner__dot-b"></div>
+                        </div>
+                    </div>
+                </template>
+
+            </template>
+            <template if:true={isError}>
+                <div style="height: 100px;">
+                    <div role="status" class="slds-spinner slds-spinner_x-small">
+                        <span class="slds-assistive-text">Loading</span>
+                        <div class="slds-spinner__dot-a"></div>
+                        <div class="slds-spinner__dot-b"></div>
+                    </div>
+                </div>
+            </template>
+            
+        </div>
+        <p>{filename}</p>
+    </div>
+</template>

@@ -1,0 +1,18 @@
+<aura:component implements="lightning:homeTemplate" 
+                description="Custom template for PDFTron WebViewer showcase app. The template has 3 columns.">
+    <aura:attribute name="column1" type="Aura.Component[]" />
+    <aura:attribute name="column2" type="Aura.Component[]" />
+    <aura:attribute name="column3" type="Aura.Component[]" />
+    
+    <div>
+        <lightning:layout verticalAlign="stretch" multipleRows="true" class="x-large">
+            <lightning:layoutItem size="3" flexibility="auto, no-grow"  class="custom-box">
+				{!v.column1}
+            </lightning:layoutItem>
+            <lightning:layoutItem size="9" flexibility="auto"  class="custom-box">         
+                {!v.column2}
+            </lightning:layoutItem>
+            
+        </lightning:layout>
+    </div> 
+</aura:component>

@@ -1,0 +1,3 @@
+<aura:component implements="lightning:appHomeTemplate" description="Custom template for PDFTron WebViewer showcase app. The template has 3 columns.">
+
+</aura:component>	

@@ -1,0 +1,41 @@
+.THIS {
+    /*background: red;*/
+    height: 100%;
+    width: 100%;
+    position: absolute;
+}
+
+.THIS .x-large {
+    height: 100%;
+}
+.THIS .custom-box {
+    background-color: whitesmoke;
+    /*padding: 0.75rem;*/
+    border: 1px solid #d8dde6;
+    height: 100%;
+}
+.THIS .custom-box:nth-child(2) {
+    border-left: none;
+}
+
+.THIS [data-component-id="pdftronDemoPage"],
+.THIS [data-component-id="webViewer"],
+.THIS .custom-box > div {
+    height: 100%
+}
+
+.THIS [data-component-id="pdftronDemoPage"] {
+    flex-grow: 1;
+    position: relative;
+    z-index: 99;
+    overflow-x: hidden;
+    background: white;
+}
+
+.THIS [data-component-id="pdftronDemoPage"] .slds-card {
+    background: none;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+    position: unset;
+}
