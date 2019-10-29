@@ -1,5 +1,5 @@
-/* eslint-disable no-console */
 import { LightningElement, wire, track } from 'lwc';
+import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 /** WebViewerController.getFileList() Apex method */
 import getFileList from '@salesforce/apex/WebViewerController.getFileList';
 /** WebViewerController.getFileBlobById(id) Apex method */
@@ -8,9 +8,7 @@ import getFileBlobById from '@salesforce/apex/WebViewerController.getFileBlobByI
 import createAttachment from '@salesforce/apex/WebViewerController.createAttachment';
 import { CurrentPageReference } from 'lightning/navigation';
 import { fireEvent, registerListener, unregisterAllListeners } from 'c/wvPubsub';
-import Files from './constatnts';
-
-const allowedExtensions = ["bmp", "gif", "docx", "xlsx", "pptx", "doc", "xls", "csv", "ppt", "htm", "html", "tif", "tiff", "jp2", "md", "txt", "pdf", "jpg", "jpeg", "png", "rtf", "odf", "odt", "odg", "odp", "ods", "dwg", "dgn", "dxf"];
+import Files, { allowedExtensions } from './constatnts';
 
 
 export default class WvFileBrowser extends LightningElement {
@@ -29,6 +27,7 @@ export default class WvFileBrowser extends LightningElement {
   @track files;
   connectedCallback() {
     registerListener('thumbnailGenerated', this.handleThumbnailGenerated, this);
+    this.showErrorMessage = this.showErrorMessage.bind(this);
   }
   disconnectedCallback() {
     unregisterAllListeners(this);
@@ -36,8 +35,8 @@ export default class WvFileBrowser extends LightningElement {
   @wire(getFileList, {searchTerm: '$searchTerm'})
   loadFiles(result) {
     if (result.data && result.data.files) {
-      console.log('%c loadFiles ', 'background: yellow; color: black;');
-      console.log(JSON.parse(JSON.stringify(result.data)));
+      // console.log('%c loadFiles ', 'background: yellow; color: black;');
+      // console.log(JSON.parse(JSON.stringify(result.data)));
       const { contentVersion_attachments = [], attachments = [], files } = result.data;
       this.files = files;
       for (let index = 0; index < contentVersion_attachments.length; index++) {
@@ -48,6 +47,15 @@ export default class WvFileBrowser extends LightningElement {
       this.processFiles();
     }
   }
+  showErrorMessage(error) {
+    this.dispatchEvent(
+      new ShowToastEvent({
+        title: 'Error in WebViewer',
+        message: error.body.message || 'error',
+        variant: 'error',
+      }),
+    );
+  }
   handleThumbnailGenerated(result) {
     this.thumbnails[result.id] = result.data;
     // console.log(JSON.parse(JSON.stringify(this.thumbnails)));
@@ -56,8 +64,8 @@ export default class WvFileBrowser extends LightningElement {
       ContentVersionId: result.id,
       ContentType: 'png',
       Body: result.data.replace('data:image/png;base64,', ''), })
-      .then(console.log)
-      .catch(error => console.error(error.body.message));
+      //.then(console.log)
+      .catch(this.showErrorMessage);
   }
   processFiles() {
     let finalFiles = this.files.filter(({ Title, /*thumb,*/ FileExtension }) => {
@@ -113,7 +121,7 @@ export default class WvFileBrowser extends LightningElement {
         this.selectedFileId = Id;
         fireEvent(this.pageRef, 'file_selected_blob', {blobString, extension, name, documentId: Id,});
       })
-      .catch(error => console.log(error.body.message));
+      .catch(this.showErrorMessage);
   }
   handleThumbError(event) {
     const { FileExtension: extension, Title: name, Id } = event.detail;
@@ -121,7 +129,7 @@ export default class WvFileBrowser extends LightningElement {
         this.selectedFileBlob = blobString;
         fireEvent(this.pageRef, 'generate_thumb', { blobString, extension, name, id: Id });
       })
-      .catch(error => console.log(error.body.message));
+      .catch(this.showErrorMessage);
   }
   handleSelectTab(event) {
     event.preventDefault();

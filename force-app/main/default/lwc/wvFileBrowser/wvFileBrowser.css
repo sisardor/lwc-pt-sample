@@ -43,7 +43,7 @@
   z-index: 99;
   background-color: white;
   height: auto;
-  overflow-y: scroll;
+  overflow-y: auto;
 }
 /* .FileGallery::-webkit-scrollbar-track {
   border-radius: 10px;
@@ -117,7 +117,7 @@
 }
 .FileGallery .list-view-row .title {
   padding-left: 5px;
-}*/
+} */
 .FileGallery .fg-header {
   position: relative;
   width: 100%;

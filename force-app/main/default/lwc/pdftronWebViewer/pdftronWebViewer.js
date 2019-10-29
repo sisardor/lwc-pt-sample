@@ -39,6 +39,7 @@ export default class WebViewerComp extends LightningElement {
       registerListener('file_selected_blob', this.handleFileSelectedBlob, this);
       registerListener('generate_thumb', this.handleGenereateThumb, this);
       window.addEventListener('message', this.handleReceiveMessage.bind(this), false);
+      this.showErrorMessage = this.showErrorMessage.bind(this);
   }
   disconnectedCallback() {
       unregisterAllListeners(this);
