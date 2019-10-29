@@ -2,14 +2,14 @@
     <lightning-card title="Uploaded files" icon-name="custom:custom63">
         <!-- <lightning-button label="New" slot="actions" onclick={toggleView}></lightning-button> -->
         <lightning-button-menu 
-        onselect={toggleView}
-        alternative-text="Show menu" 
-        menu-alignment="right"
-        variant="bare"
-        slot="actions" 
-        icon-name="utility:settings">
-            <lightning-menu-item value="ListView" label="List View"></lightning-menu-item>
-            <lightning-menu-item value="CardView" label="Card View"></lightning-menu-item>
+            onselect={toggleView}
+            alternative-text="Show menu" 
+            menu-alignment="right"
+            variant="bare"
+            slot="actions" 
+            icon-name="utility:settings">
+            <template if:true={isListViewMode}><lightning-menu-item value="CardView" label="Card View"></lightning-menu-item></template>
+            <template if:false={isListViewMode}><lightning-menu-item value="ListView" label="List View"></lightning-menu-item></template>
         </lightning-button-menu>
         <div class="FileGallery page">
             <template if:false={isListViewMode}>
@@ -26,55 +26,56 @@
             <template if:true={isListViewMode}>
                 <div class="fg-search-box">
                     <lightning-input
+                        onchange={handleSearchTermChange}
                         name="enter-search"
                         type="search"
+                        value={searchTerm}
                     ></lightning-input>
                 </div>
             </template>
             <div class="flex-row">
-                    <template if:true={isLoading}>
-                        <div role="status" class="slds-spinner slds-spinner_medium">
-                            <span class="slds-assistive-text">Loading</span>
-                            <div class="slds-spinner__dot-a"></div>
-                            <div class="slds-spinner__dot-b"></div>
+                <template if:true={isLoading}>
+                    <div role="status" class="slds-spinner slds-spinner_medium">
+                        <span class="slds-assistive-text">Loading</span>
+                        <div class="slds-spinner__dot-a"></div>
+                        <div class="slds-spinner__dot-b"></div>
+                    </div>
+                </template>
+                <template if:false={isListViewMode}>
+                    <template if:true={leftSide}>
+                        <div class="flex-item">
+                            <template for:each={leftSide} for:item="file">
+                                <c-wv-gallery-item key={file.Id} file={file} 
+                                selected={selectedFileId} 
+                                onselect={handleFileSelect}
+                                onthumberror={handleThumbError}
+                                thumbnails={thumbnails}></c-wv-gallery-item>
+                            </template>
                         </div>
                     </template>
-                    <template if:false={isListViewMode}>
-                        <template if:true={leftSide}>
-                            <div class="flex-item">
-                                <template for:each={leftSide} for:item="file">
-                                    <c-wv-gallery-item key={file.Id} file={file} 
-                                    selected={selectedFileId} 
-                                    onselect={handleFileSelect}
-                                    onthumberror={handleThumbError}
-                                    thumbnails={thumbnails}></c-wv-gallery-item>
-                                </template>
-                            </div>
-                        </template>
-                        <template if:true={rightSide}>
-                            <div class="flex-item">
-                                <template for:each={rightSide} for:item="file">
-                                    <c-wv-gallery-item key={file.Id} file={file} 
+                    <template if:true={rightSide}>
+                        <div class="flex-item">
+                            <template for:each={rightSide} for:item="file">
+                                <c-wv-gallery-item key={file.Id} file={file} 
                                     selected={selectedFileId}
                                     onselect={handleFileSelect}
                                     onthumberror={handleThumbError}
                                     thumbnails={thumbnails}></c-wv-gallery-item>
-                                </template>
-                            </div>
-                        </template>
-                    </template>
-
-                    <template if:true={isListViewMode}>
-                        <div class="list-view">
-                            <template for:each={files} for:item="file">
-                                <div key={file.Id} class="list-view-row">
-                                    <lightning-icon icon-name="doctype:image" alternative-text="Doc image" ></lightning-icon>
-                                    <span class="title">{file.Title}.{file.FileExtension}</span>
-                                </div>
                             </template>
                         </div>
                     </template>
-                </div>
+                </template>
+
+                <template if:true={isListViewMode}>
+                    <div class="list-view">
+                        <template for:each={files} for:item="file">
+                            <c-wv-list-item key={file.Id} file={file}
+                                selected={selectedFileId}
+                                onselect={handleFileSelect}></c-wv-list-item>
+                        </template>
+                    </div>
+                </template>
+            </div>
         </div>
     </lightning-card>
   </template>

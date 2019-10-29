@@ -1,0 +1,15 @@
+<template>
+    <div class={cssClass} onclick={handleOpenFileClick}>
+        <template if:true={isLoading}>
+            <div class="slds-spinner_container">
+                <div role="status" class="slds-spinner slds-spinner_x-small">
+                    <span class="slds-assistive-text">Loading</span>
+                    <div class="slds-spinner__dot-a"></div>
+                    <div class="slds-spinner__dot-b"></div>
+                </div>
+            </div>
+        </template>
+        <lightning-icon icon-name={fileIcon} alternative-text="Doc image" ></lightning-icon>
+        <span class="title">{file.Title}.{file.FileExtension}</span>
+    </div>
+</template>

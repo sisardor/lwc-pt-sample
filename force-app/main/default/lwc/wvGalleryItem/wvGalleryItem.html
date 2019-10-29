@@ -1,6 +1,6 @@
 <template>
     <div class={cssClass} onclick={handleOpenFileClick}>
-        <div class="img-wrapper">
+        <div class="img-wrapper" title={filename}>
             <template if:false={isError}>
                 <!-- <img src="https://demo.pdftron.com/data/Thumbs/Fetched/jKDYDnP4GUYwnawLaG48vnuTk1CY9D4h47Qj-_VCTDw=Chart_.Vector.pdf.jpg" alt="Chart_.Vector.pdf"> -->
                 <img src={thumbUrl} alt={altFilename} onerror={handleImageError}>
@@ -27,6 +27,6 @@
             </template>
             
         </div>
-        <p>{filename}</p>
+        <p class="filename" title={filename}>{filename}</p>
     </div>
 </template>

@@ -1,2 +1,44 @@
 .THIS {
+    /*background: red;*/
+    /* height: 100%; */
+    width: 100%;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+}
+
+.THIS .x-large {
+    height: 100%;
+}
+.THIS .custom-box {
+    background-color: whitesmoke;
+    /*padding: 0.75rem;*/
+    border: 1px solid #d8dde6;
+    height: 100%;
+}
+.THIS .custom-box:nth-child(2) {
+    border-left: none;
+}
+
+.THIS [data-component-id="wvFileBrowser"],
+.THIS [data-component-id="pdftronWebViewer"],
+.THIS [data-component-id="pdftronWebViewer"] .pdf_viewer,
+.THIS .custom-box > div {
+    height: 100%
+}
+
+.THIS [data-component-id="wvFileBrowser"] {
+    flex-grow: 1;
+    position: relative;
+    z-index: 99;
+    overflow-x: hidden;
+    background: white;
+}
+
+.THIS [data-component-id="wvFileBrowser"] .slds-card {
+    background: none;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+    position: unset;
 }

@@ -1,49 +1,44 @@
 /* eslint-disable no-console */
 import { LightningElement, wire, track } from 'lwc';
-/** WVFileBrowserController.getFileList() Apex method */
-import getFileList from '@salesforce/apex/WVFileBrowserController.getFileList';
-/** WVFileBrowserController.getFileBlobById(id) Apex method */
-import getFileBlobById from '@salesforce/apex/WVFileBrowserController.getFileBlobById';
-/** WVFileBrowserController.createThumbnail(params) Apex method */
-// import createThumbnail from '@salesforce/apex/WVFileBrowserController.createThumbnail';
-/** WVFileBrowserController.createAttachment(params) Apex method */
-import createAttachment from '@salesforce/apex/WVFileBrowserController.createAttachment';
+/** WebViewerController.getFileList() Apex method */
+import getFileList from '@salesforce/apex/WebViewerController.getFileList';
+/** WebViewerController.getFileBlobById(id) Apex method */
+import getFileBlobById from '@salesforce/apex/WebViewerController.getFileBlobById';
+/** WebViewerController.createAttachment(params) Apex method */
+import createAttachment from '@salesforce/apex/WebViewerController.createAttachment';
 import { CurrentPageReference } from 'lightning/navigation';
 import { fireEvent, registerListener, unregisterAllListeners } from 'c/wvPubsub';
 import Files from './constatnts';
 
 const allowedExtensions = ["bmp", "gif", "docx", "xlsx", "pptx", "doc", "xls", "csv", "ppt", "htm", "html", "tif", "tiff", "jp2", "md", "txt", "pdf", "jpg", "jpeg", "png", "rtf", "odf", "odt", "odg", "odp", "ods", "dwg", "dgn", "dxf"];
+
+
 export default class WvFileBrowser extends LightningElement {
+  @track searchTerm = '';
   @track leftSide;
   @track rightSide;
-  @track isListViewMode = true;
+  @track _isListViewMode = localStorage.getItem('PDFTron_wvFileBrowser_set1');
   @track thumbnails = {};
   @track activeTab = 'PDF';
   @track isLoading = true;
   @wire(CurrentPageReference) pageRef;
-  selectedFileBlob;
+  selectedFileBlob;  
+  wiredFilesResult;
   tabsList = [ 'PDF','Office', 'Images' ];
   @track selectedFileId;
   @track files;
   connectedCallback() {
     registerListener('thumbnailGenerated', this.handleThumbnailGenerated, this);
-    console.log('%c connectedCallback ', 'background: red; color: white;');
   }
-
   disconnectedCallback() {
     unregisterAllListeners(this);
-    console.log('%c disconnectedCallback ', 'background: red; color: white;');
   }
-
-  wiredFilesResult;
-  
-  @wire(getFileList)
+  @wire(getFileList, {searchTerm: '$searchTerm'})
   loadFiles(result) {
-    
-    if (result.data && result.data.files && result.data.files.length) {
+    if (result.data && result.data.files) {
       console.log('%c loadFiles ', 'background: yellow; color: black;');
       console.log(JSON.parse(JSON.stringify(result.data)));
-      const { contentVersion_attachments, attachments, files } = result.data;
+      const { contentVersion_attachments = [], attachments = [], files } = result.data;
       this.files = files;
       for (let index = 0; index < contentVersion_attachments.length; index++) {
         const throughRecord = contentVersion_attachments[index];
@@ -52,9 +47,7 @@ export default class WvFileBrowser extends LightningElement {
       }
       this.processFiles();
     }
-
   }
-
   handleThumbnailGenerated(result) {
     this.thumbnails[result.id] = result.data;
     // console.log(JSON.parse(JSON.stringify(this.thumbnails)));
@@ -63,13 +56,8 @@ export default class WvFileBrowser extends LightningElement {
       ContentVersionId: result.id,
       ContentType: 'png',
       Body: result.data.replace('data:image/png;base64,', ''), })
-      .then(res => {
-        console.log(res);
-      })
-      .catch(error => {
-        console.error(error.body.message);
-        
-      })
+      .then(console.log)
+      .catch(error => console.error(error.body.message));
   }
   processFiles() {
     let finalFiles = this.files.filter(({ Title, /*thumb,*/ FileExtension }) => {
@@ -106,59 +94,52 @@ export default class WvFileBrowser extends LightningElement {
     this.rightSide = rightSide;
     this.isLoading = false;
   }
+  handleSearchTermChange(event) {
+		// Debouncing this method: do not update the reactive property as
+		// long as this function is being called within a delay of 300 ms.
+		// This is to avoid a very large number of Apex method calls.
+		window.clearTimeout(this.delayTimeout);
+		const searchTerm = event.target.value;
+		// eslint-disable-next-line @lwc/lwc/no-async-operation
+		this.delayTimeout = setTimeout(() => {
+			this.searchTerm = searchTerm;
+		}, 300);
+	}
   handleFileSelect(event) {
-    const { FileExtension: extension, Title: name, Id: id } = event.detail;
+    const { FileExtension: extension, Title: name, Id } = event.detail;
     
-    getFileBlobById({ Id: id })
-      .then(blobString => {
-        this.selectedFileBlob = blobString
-        fireEvent(this.pageRef, 'file_selected_blob', {
-          blobString,
-          extension,
-          name,
-        });
-
-        this.selectedFileId = id;
+    getFileBlobById({ Id }).then(blobString => {
+        this.selectedFileBlob = blobString;
+        this.selectedFileId = Id;
+        fireEvent(this.pageRef, 'file_selected_blob', {blobString, extension, name, documentId: Id,});
       })
-      .catch(error => {
-        console.log(error.body.message);
-      })
+      .catch(error => console.log(error.body.message));
   }
   handleThumbError(event) {
-    const { FileExtension: extension, Title: name, Id: id } = event.detail;
-    getFileBlobById({ Id: id })
-      .then(blobString => {
+    const { FileExtension: extension, Title: name, Id } = event.detail;
+    getFileBlobById({ Id }).then(blobString => {
         this.selectedFileBlob = blobString;
-        fireEvent(this.pageRef, 'generate_thumb', {
-          blobString,
-          extension,
-          name,
-          id,
-        });
+        fireEvent(this.pageRef, 'generate_thumb', { blobString, extension, name, id: Id });
       })
-      .catch(error => {
-        console.log(error.body.message);
-      });
+      .catch(error => console.log(error.body.message));
   }
-
   handleSelectTab(event) {
     event.preventDefault();
     event.stopPropagation();
     this.activeTab = event.target.dataset.tab;
     this.processFiles();
   }
-
+  toggleView(event) {
+    localStorage.setItem('PDFTron_wvFileBrowser_set1', event.detail.value);
+    this._isListViewMode = event.detail.value;
+  }
   get processedList() {
     return this.tabsList.map(label => {
       const computedClass = this.activeTab === label ? 'slds-tabs_default__item slds-is-active' : 'slds-tabs_default__item';
-      return {
-        label,
-        computedClass,
-      };
+      return {  label, computedClass, };
     });
   }
-
-  toggleView(event) {
-    this.isListViewMode = (event.detail.value === 'ListView') ? true : false;
+  get isListViewMode() {
+    return (this._isListViewMode === 'ListView') ? true : false;
   }
 }

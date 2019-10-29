@@ -12,6 +12,9 @@
             "c/wvGalleryItem": [
                 "wvGalleryItem/wvGalleryItem.js"
             ],
+            "c/wvListItem": [
+                "wvListItem/wvListItem.js"
+            ],
             "c/wvPubsub": [
                 "wvPubsub/wvPubsub.js"
             ]

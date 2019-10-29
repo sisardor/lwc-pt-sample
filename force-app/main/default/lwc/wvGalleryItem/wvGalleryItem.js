@@ -1,8 +1,8 @@
 /* eslint-disable no-console */
 import { LightningElement, api, track } from 'lwc';
-// const THUMBSIZES = [
-//   'THUMB240BY180'
-// ]
+const THUMBSIZES = [
+  'THUMB240BY180'
+]
 export default class WvGalleryItem extends LightningElement {
   @api file;
   @api thumbnails;

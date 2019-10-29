@@ -6,8 +6,6 @@
   right: 0;
   padding: 15px 0;
 }
-
-
 .FileGallery .flex-row {
   display: -ms-flexbox;
   display: flex;
@@ -15,12 +13,6 @@
   align-items: center;
 }
 .FileGallery .GalleryItem {
- /* flex-basis: 50%;
-  */
- /* width: 50%;
-  */
- /* padding: 5px;
-  */
   margin-bottom: 10px;
 }
 .FileGallery .exit {
@@ -35,13 +27,9 @@
 .FileGallery.page {
   padding-top: 0;
   margin-bottom: -0.75rem;
-  /* min-height: 600px;
-  max-height: 600px; */
 }
 .FileGallery .flex-row {
   align-items: flex-start;
-  /* margin-top: 10px;
-  padding: 10px; */
   justify-content: center;
   border-top: 1px solid rgb(221, 219, 218);
 }
@@ -101,27 +89,21 @@
   position: absolute;
   margin-top: 9px;
 }
-
 .slds-tabs_default__item, .slds-tabs--default__item {
   padding: 0 1rem;
 }
-
 .slds-tabs_default__nav, .slds-tabs--default__nav {
   border-bottom: none;
 }
-
 .FileGallery .tab-btn {
-    /* margin-top: 8px; */
     position: absolute;
     right: 2px;
 }
-
 .FileGallery .list-view {
   width: 100%;
   cursor: pointer;
 }
-
-.FileGallery .list-view-row {
+/* .FileGallery .list-view-row {
   padding: 0.5rem 1rem;
   border-bottom: 1px solid #dddbda;
   overflow: hidden;
@@ -131,19 +113,14 @@
   word-wrap: break-word;
 }
 .FileGallery .list-view-row:hover {
-  /* color: #00a5e4 !important; */
-  
   background: rgb(243, 242, 242);
 }
-
 .FileGallery .list-view-row .title {
   padding-left: 5px;
-}
-
+}*/
 .FileGallery .fg-header {
   position: relative;
   width: 100%;
-  /* height: 40px; */
   padding: .75rem 1rem 0;
   margin: 0 0 .75rem;
 }
@@ -153,4 +130,4 @@
   padding-top: 0;
   padding-left: 1rem;
   padding-right: 1rem;
-}
+} 
