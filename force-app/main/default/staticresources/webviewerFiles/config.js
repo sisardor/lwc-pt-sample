@@ -1,17 +1,3 @@
-window.sampleL = 'demo:sisakov@pdftron.com:758c34bd0164a412c3d0733be2663fcfa35b809d67c9c77c02'; // enter your key here so that the samples will run
-
-if (!window.sampleL) {
-  window.sampleL = localStorage.getItem('wv-sample-license-key') || window.location.search.slice(5);
-  if (!window.sampleL) {
-    window.sampleL = window.prompt('No license key is specified.\nPlease enter your key here or add it to license-key.js inside the samples folder.', '');
-    if (window.sampleL) {
-      localStorage.setItem('wv-sample-license-key', window.sampleL);
-    }
-  }
-}
-
-
-
 const resourceURL = '/resource/'
 
 window.CoreControls.forceBackendType('ems');
