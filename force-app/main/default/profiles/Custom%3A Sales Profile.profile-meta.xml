@@ -3,10 +3,14 @@
     <applicationVisibilities>
         <application>PDFTronSystems</application>
         <default>false</default>
-        <visible>false</visible>
+        <visible>true</visible>
     </applicationVisibilities>
     <classAccesses>
-        <apexClass>WVFileBrowserController</apexClass>
+        <apexClass>WebViewerController</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>WebViewerControllerTest</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <custom>true</custom>

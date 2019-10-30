@@ -100,7 +100,7 @@ export default class WebViewerComp extends LightningElement {
   initUI() {
     let _this = this;
     var myObj = { libUrl: libUrl };
-    var url = myfilesUrl + '/webviewer-demo-annotated.pdf';
+    // var url = myfilesUrl + '/webviewer-demo-annotated.pdf';
     // var url = myfilesUrl + '/webviewer-demo-annotated.xod';
     // var url = myfilesUrl + '/word.docx';
     
@@ -109,7 +109,7 @@ export default class WebViewerComp extends LightningElement {
     const viewer = new PDFTron.WebViewer({
       path: libUrl, // path to the PDFTron 'lib' folder on your server
       custom: JSON.stringify(myObj),
-      initialDoc: url,
+      // initialDoc: url,
       // preloadWorker: 'pdf',
       config: myfilesUrl + '/config.js',
       fullAPI: true,
