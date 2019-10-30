@@ -112,7 +112,7 @@ export default class WebViewerComp extends LightningElement {
       // initialDoc: url,
       // preloadWorker: 'pdf',
       config: myfilesUrl + '/config.js',
-      fullAPI: true,
+      // fullAPI: true,
       enableFilePicker: true,
     }, viewerElement);
 
