@@ -7,4 +7,10 @@
       <target>lightning__RecordPage</target>
       <target>lightning__HomePage</target>
     </targets>
+    <targetConfigs>
+      <targetConfig targets="lightning__AppPage,lightning__RecordPage,lightning__HomePage">
+        <property name="listViewMode" type="String" label="Default View Mode" description="Select available view modes." datasource="List View, Card View"/>
+        <property name="cssMinHeight" type="integer" max="1000" min="300" label="Min-Height CSS value"/>
+      </targetConfig>
+    </targetConfigs>
 </LightningComponentBundle>

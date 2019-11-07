@@ -1,4 +1,4 @@
-import { LightningElement, wire, track } from 'lwc';
+import { LightningElement, wire, track, api } from 'lwc';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 /** WebViewerController.getFileList() Apex method */
 import getFileList from '@salesforce/apex/WebViewerController.getFileList';
@@ -13,9 +13,11 @@ import Files, { allowedExtensions } from './constatnts';
 
 export default class WvFileBrowser extends LightningElement {
   @track searchTerm = '';
+  @api listViewMode;
+  @api cssMinHeight;
+  @track listViewMode = localStorage.getItem('PDFTron_wvFileBrowser_set1');
   @track leftSide;
   @track rightSide;
-  @track _isListViewMode = localStorage.getItem('PDFTron_wvFileBrowser_set1');
   @track thumbnails = {};
   @track activeTab = 'PDF';
   @track isLoading = true;
@@ -24,6 +26,7 @@ export default class WvFileBrowser extends LightningElement {
   wiredFilesResult;
   tabsList = [ 'PDF','Office', 'Images' ];
   @track selectedFileId;
+
   @track files;
   connectedCallback() {
     registerListener('thumbnailGenerated', this.handleThumbnailGenerated, this);
@@ -46,6 +49,9 @@ export default class WvFileBrowser extends LightningElement {
       }
       this.processFiles();
     }
+  }
+  get minHeight() {
+    return 'min-height:' + (this.cssMinHeight - 56) +'px;';
   }
   showErrorMessage(error) {
     this.dispatchEvent(
@@ -139,7 +145,7 @@ export default class WvFileBrowser extends LightningElement {
   }
   toggleView(event) {
     localStorage.setItem('PDFTron_wvFileBrowser_set1', event.detail.value);
-    this._isListViewMode = event.detail.value;
+    this.listViewMode = event.detail.value;
   }
   get processedList() {
     return this.tabsList.map(label => {
@@ -148,6 +154,6 @@ export default class WvFileBrowser extends LightningElement {
     });
   }
   get isListViewMode() {
-    return (this._isListViewMode === 'ListView') ? true : false;
+    return (this.listViewMode === 'List View') ? true : false;
   }
 }

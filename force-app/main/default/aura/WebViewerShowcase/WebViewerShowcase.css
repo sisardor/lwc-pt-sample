@@ -4,7 +4,7 @@
     width: 100%;
     position: absolute;
     top: 0;
-    bottom: 0;
+    bottom: -0.75rem;
 }
 
 .THIS .x-large {
@@ -14,11 +14,32 @@
     background-color: whitesmoke;
     /*padding: 0.75rem;*/
     border: 1px solid #d8dde6;
+    
     height: 100%;
 }
 .THIS .custom-box:nth-child(2) {
     border-left: none;
 }
+.THIS .custom-box:last-child,
+.THIS [data-component-id="pdftronWebViewer"] {
+    border-top-right-radius: 0.35rem;
+}
+.THIS .custom-box:first-child,
+.THIS [data-component-id="wvFileBrowser"] {
+    border-top-left-radius: 0.35rem;
+}
+
+
+@media only screen and (min-width:1600px) {
+
+    .THIS .custom-box.slds-size_3-of-12 {
+        width: 20%;
+    }
+    .THIS .custom-box.slds-size_9-of-12 {
+        width: 80%;
+    }
+}
+
 
 .THIS [data-component-id="wvFileBrowser"],
 .THIS [data-component-id="pdftronWebViewer"],
@@ -38,7 +59,7 @@
 .THIS [data-component-id="wvFileBrowser"] .slds-card {
     background: none;
     border: none;
-    border-radius: 0;
+    /* border-radius: 0; */
     box-shadow: none;
     position: unset;
 }

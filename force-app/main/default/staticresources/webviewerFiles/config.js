@@ -111,7 +111,7 @@ function generateThumbnail(payload, resolve, reject) {
           data: dataURL,
           id: id,
         }
-        parent.postMessage({type: 'GENEREATED_THUMB_DATA', payload: result });
+        parent.postMessage({type: 'GENEREATED_THUMB_DATA', payload: result }, '*');
         if (resolve) return resolve();
       }
     );
@@ -123,11 +123,11 @@ function generateThumbnail(payload, resolve, reject) {
 }
 
 function loadxfdfStrings(documentId) {
-  parent.postMessage({type: 'LOAD_ANNOTATIONS', payload: {documentId} });
+  parent.postMessage({type: 'LOAD_ANNOTATIONS', payload: {documentId} }, '*');
 }
 
 function savexfdfString(payload) {
-  parent.postMessage({type: 'SAVE_ANNOTATIONS', payload });
+  parent.postMessage({type: 'SAVE_ANNOTATIONS', payload }, '*');
 }
 
 function drawAnnotations(data) {

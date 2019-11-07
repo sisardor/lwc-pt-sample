@@ -23,7 +23,7 @@ const extensions = {
       'gif',
       'png',
       'bmp',
-      'tif'
+      // 'tif'
     ]
   };
   

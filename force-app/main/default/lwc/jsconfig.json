@@ -17,6 +17,9 @@
             ],
             "c/wvPubsub": [
                 "wvPubsub/wvPubsub.js"
+            ],
+            "c/testPDFMerge": [
+                "testPDFMerge/testPDFMerge.js"
             ]
         }
     },

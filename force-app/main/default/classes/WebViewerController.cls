@@ -73,8 +73,13 @@ public with sharing class WebViewerController {
     public static String saveAnnotations(String action, String documentId, String annotationId, String xfdfString) {
         PDFTronAnnotations__c[] annots = [SELECT Id, Content_Version_Id__c, Annotation_Id__c, xfdfString__c 
             FROM PDFTronAnnotations__c WHERE Annotation_Id__c = :annotationId];
+        
+        Pattern MyPattern = Pattern.compile('<delete>(.*)</delete>');
+        Matcher MyMatcher = MyPattern.matcher(xfdfString);
+        Boolean isDeleteCommand = MyMatcher.matches();
 
         if (action == 'delete') {
+        // if (isDeleteCommand) {
             // Delete record
             delete annots;
             return 'Success';

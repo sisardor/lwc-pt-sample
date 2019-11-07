@@ -7,4 +7,12 @@
         <target>lightning__RecordPage</target>
         <target>lightning__HomePage</target>
     </targets>
+    <targetConfigs>
+      <targetConfig targets="lightning__AppPage,lightning__HomePage">
+        <property name="fullAPI" type="Boolean" default="false" label="Enablde full API mode?" description="The full API is a complete browser side PDF SDK, unlocking viewing, parsing and editing of PDF files. Need to include full.zip"/>
+        <property name="enableFilePicker" type="Boolean" default="false" label="Enablde file picker option?"/>
+        <property name="enableRedaction" type="Boolean" default="false" label="Enablde redaction tool?" description="Need redaction enabled license key."/>
+        <property name="enableMeasurement" type="Boolean" default="false" label="Enablde measurement tool?"/>
+      </targetConfig>
+    </targetConfigs>
 </LightningComponentBundle>

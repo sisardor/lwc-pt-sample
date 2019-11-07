@@ -8,10 +8,10 @@
             variant="bare"
             slot="actions" 
             icon-name="utility:settings">
-            <template if:true={isListViewMode}><lightning-menu-item value="CardView" label="Card View"></lightning-menu-item></template>
-            <template if:false={isListViewMode}><lightning-menu-item value="ListView" label="List View"></lightning-menu-item></template>
+            <template if:true={isListViewMode}><lightning-menu-item value="Card View" label="Card View"></lightning-menu-item></template>
+            <template if:false={isListViewMode}><lightning-menu-item value="List View" label="List View"></lightning-menu-item></template>
         </lightning-button-menu>
-        <div class="FileGallery page">
+        <div class="FileGallery page" style={minHeight}>
             <template if:false={isListViewMode}>
                 <div class="slds-tabs_default">
                     <ul class="slds-tabs_default__nav" role="tablist">
