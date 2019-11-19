@@ -51,6 +51,7 @@ public with sharing class WebViewerController {
         return m;
     }
 
+    @RemoteAction
     @AuraEnabled(Cacheable=true)
     public static String getFileBlobById(String Id) {
         ContentVersion cv = [SELECT Id, Title, FileExtension, IsMajorVersion, IsLatest, VersionData, IsAssetEnabled FROM ContentVersion WHERE Id = :Id];

@@ -82,6 +82,11 @@ generateUrls() {
     this.iframeWindow.postMessage({type: 'GENEREATE_THUMB', payload }, '*')
   }
   showErrorMessage(error) {
+    if (!error)  {
+      // eslint-disable-next-line no-console
+      console.error(error);
+      return;
+    }
     this.dispatchEvent(
       new ShowToastEvent({
         title: 'Error in WebViewer',
