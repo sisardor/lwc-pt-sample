@@ -40,7 +40,7 @@ export default class WvFileBrowser extends LightningElement {
     if (result.data && result.data.files) {
 
       // console.log('%c loadFiles ', 'background: yellow; color: black;');
-      console.log(JSON.parse(JSON.stringify(result.data)));
+      // console.log(JSON.parse(JSON.stringify(result.data)));
       const { contentVersion_attachments = [], attachments = [], files } = result.data;
       this.files = files;
       for (let index = 0; index < contentVersion_attachments.length; index++) {

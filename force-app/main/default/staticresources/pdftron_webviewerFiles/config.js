@@ -1,4 +1,5 @@
 var resourceURL = '/resource/'
+window.CoreControls.forceBackendType('ems');
 
 window.addEventListener('viewerLoaded', () => {
   custom = JSON.parse(readerControl.getCustomData());
@@ -6,7 +7,6 @@ window.addEventListener('viewerLoaded', () => {
   console.log(custom); // outputs 10
   const namespacePrefix = custom.namespacePrefix;
   resourceURL = resourceURL + namespacePrefix;
-  window.CoreControls.forceBackendType('ems');
   // office workers
   window.CoreControls.setOfficeWorkerPath(resourceURL + 'pdftron_office')
   window.CoreControls.setOfficeAsmPath(resourceURL + 'pdftron_officeAsm');

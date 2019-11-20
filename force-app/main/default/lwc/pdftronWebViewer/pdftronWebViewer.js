@@ -145,6 +145,7 @@ generateUrls() {
       path: libUrl, // path to the PDFTron 'lib' folder on your server
       custom: JSON.stringify(myObj),
       // initialDoc: url,
+      backendType: 'ems',
       preloadWorker: 'all',
       config: myfilesUrl + '/config.js',
       fullAPI: this.fullAPI,
