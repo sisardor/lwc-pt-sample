@@ -2,13 +2,16 @@ const resourceURL = '/resource/'
 
 window.CoreControls.forceBackendType('ems');
 // office workers
-window.CoreControls.setOfficeWorkerPath(resourceURL + 'office')
-window.CoreControls.setOfficeAsmPath(resourceURL + 'officeAsm');
-window.CoreControls.setOfficeResourcePath(resourceURL + 'officeResource');
+window.CoreControls.setOfficeWorkerPath(resourceURL + 'pdftron_office')
+window.CoreControls.setOfficeAsmPath(resourceURL + 'pdftron_officeAsm');
+window.CoreControls.setOfficeResourcePath(resourceURL + 'pdftron_officeResource');
 // pdf workers
-window.CoreControls.setPDFWorkerPath(resourceURL)
-window.CoreControls.setPDFResourcePath(resourceURL + 'resource')
-window.CoreControls.setPDFAsmPath(resourceURL + 'asm')
+window.CoreControls.setPDFWorkerPath(resourceURL + 'pdftron_lean')
+window.CoreControls.setPDFResourcePath(resourceURL + 'pdftron_resource')
+window.CoreControls.setPDFAsmPath(resourceURL + 'pdftron_asm')
+// external 3rd party libraries
+window.CoreControls.setExternalPath(resourceURL + 'pdftron_external')
+
 
 let __documentId = null;
 
@@ -133,7 +136,7 @@ function savexfdfString(payload) {
 function drawAnnotations(data) {
   var annotManager = docViewer.getAnnotationManager();
   data.forEach(col => {
-    const annotations = annotManager.importAnnotCommand(col.xfdfString__c);
+    const annotations = annotManager.importAnnotCommand(col.xfdfString);
     annotManager.drawAnnotationsFromList(annotations);
   });
 }
