@@ -4,7 +4,8 @@ window.addEventListener('viewerLoaded', () => {
   custom = JSON.parse(readerControl.getCustomData());
   console.log('viewerLoaded')
   console.log(custom); // outputs 10
-  
+  const namespacePrefix = custom.namespacePrefix;
+  resourceURL = resourceURL + namespacePrefix;
   window.CoreControls.forceBackendType('ems');
   // office workers
   window.CoreControls.setOfficeWorkerPath(resourceURL + 'pdftron_office')
@@ -23,7 +24,6 @@ window.addEventListener('viewerLoaded', () => {
   }
 });
 
-console.log('viewerLoaded after')
 
 
 

@@ -6,9 +6,6 @@
             "c/pdftronWebViewer": [
                 "pdftronWebViewer/pdftronWebViewer.js"
             ],
-            "c/testPDFMerge": [
-                "testPDFMerge/testPDFMerge.js"
-            ],
             "c/wvFileBrowser": [
                 "wvFileBrowser/wvFileBrowser.js"
             ],

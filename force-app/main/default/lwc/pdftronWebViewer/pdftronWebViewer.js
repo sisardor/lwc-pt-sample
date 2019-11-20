@@ -133,6 +133,7 @@ generateUrls() {
     var myObj = { 
       libUrl: libUrl,
       fullAPI: this.fullAPI || false,
+      namespacePrefix: 'pdftron__',
     };
     // var url = myfilesUrl + '/webviewer-demo-annotated.pdf';
     // var url = myfilesUrl + '/webviewer-demo-annotated.xod';
