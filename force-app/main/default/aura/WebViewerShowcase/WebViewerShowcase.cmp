@@ -4,7 +4,7 @@
     <div>
         <lightning:layout verticalAlign="stretch" multipleRows="true" class="x-large">
             <lightning:layoutItem size="3" flexibility="auto, no-grow"  class="custom-box">
-				{!v.column1}
+				        {!v.column1}
             </lightning:layoutItem>
             <lightning:layoutItem size="9" flexibility="auto"  class="custom-box">         
                 {!v.column2}

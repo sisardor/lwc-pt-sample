@@ -1,5 +1,5 @@
 public with sharing class WebViewerController {
-
+//SELECT NamespacePrefix as Param FROM Organization
     @AuraEnabled(Cacheable=true)
     public static List<ContentVersion> searchContentVersion(String searchTerm) {
         searchTerm = searchTerm.trim();
@@ -15,40 +15,47 @@ public with sharing class WebViewerController {
 	@AuraEnabled(Cacheable=true)
     public static Map<String,Object> getFileList(String searchTerm) {
         List<ContentVersion> cvlist = searchContentVersion(searchTerm);
-        List<ContentVersion> filteredList = new List<ContentVersion>();
+        List<ContentVersion> filteredFiles = new List<ContentVersion>();
 
         List<String> cvIds = new List<String>();
 
         for(ContentVersion item: cvlist) {
             if (!item.IsAssetEnabled) {
-               filteredList.add(item);
+               filteredFiles.add(item);
                cvIds.add('' + item.Id);
             }
         }
-        Map<String,Object> m = new Map<String, Object>();
-        m.put('files', filteredList);
+        Map<String,Object> payload = new Map<String, Object>();
+        payload.put('files', filteredFiles);
         if (searchTerm == '') {
-            List<PDFTronThumbnail__c> contentVersion_attachments = [SELECT Attachment_Id__c, Content_Version_Id__c FROM PDFTronThumbnail__c WHERE Content_Version_Id__c IN :cvIds];
+            List<PDFTronThumbnail__c> contentVersion_attachments_throughTable = [SELECT Attachment_Id__c, Content_Version_Id__c FROM PDFTronThumbnail__c WHERE Content_Version_Id__c IN :cvIds];
 
             List<String> attIds = new List<String>();
-            for(PDFTronThumbnail__c item: contentVersion_attachments) {
+            Set<Map<String,String>> contentVersion_attachments = new Set<Map<String,String>>();
+            for(PDFTronThumbnail__c item: contentVersion_attachments_throughTable) {
                 attIds.add(item.Attachment_Id__c);
+                // Normilize throught table data
+                Map<String,String> temp = new Map<String, String>();
+                temp.put('Id', item.Id);
+                temp.put('ContentVersion_Id', item.Content_Version_Id__c);
+                temp.put('Attachment_Id', item.Attachment_Id__c);
+                contentVersion_attachments.add(temp);
             }
-            List<Attachment> attachments = [SELECT Id, ContentType,ParentId, Body, Name FROM Attachment WHERE Id IN :attIds];
-            Set<Map<String,String>> s1 = new Set<Map<String,String>>();
-            for (Attachment item : attachments) {
+            List<Attachment> attachments_table = [SELECT Id, ContentType,ParentId, Body, Name FROM Attachment WHERE Id IN :attIds];
+            Set<Map<String,String>> attachments = new Set<Map<String,String>>();
+            for (Attachment item : attachments_table) {
                 Map<String,String> m1 = new Map<String, String>();
                 m1.put('Id', '' + item.Id);
                 m1.put('ContentType', item.ContentType);
                 m1.put('Body', EncodingUtil.base64Encode(item.Body));
                 m1.put('PDFTronTumbnail__c_Id', item.ParentId);
-                s1.add(m1);
+                attachments.add(m1);
             }
-            m.put('contentVersion_attachments', contentVersion_attachments);
-            m.put('attachments', s1);
+            payload.put('contentVersion_attachments', contentVersion_attachments);
+            payload.put('attachments', attachments);
         }
 
-        return m;
+        return payload;
     }
 
     @RemoteAction
@@ -103,7 +110,16 @@ public with sharing class WebViewerController {
     }
 
     @AuraEnabled
-    public static List<PDFTronAnnotations__c> getAnnotations(String documentId) {
-        return [SELECT Id, Content_Version_Id__c, Annotation_Id__c, xfdfString__c FROM PDFTronAnnotations__c WHERE Content_Version_Id__c = :documentId];
+    public static List<Map<String,String>> getAnnotations(String documentId) {
+        List<PDFTronAnnotations__c> temp = [SELECT Id, Content_Version_Id__c, Annotation_Id__c, xfdfString__c FROM PDFTronAnnotations__c WHERE Content_Version_Id__c = :documentId];
+        List<Map<String,String>> annotations = new List<Map<String,String>>();
+        for (Integer i = 0; i < temp.size(); i++) {
+            Map<String,String> annot = new Map<String, String>();
+            annot.put('xfdfString', temp[i].xfdfString__c);
+            annot.put('Annotation_Id', temp[i].Annotation_Id__c);
+            annot.put('ContentVersion_Id', temp[i].Content_Version_Id__c);
+            annotations.add(annot);
+        }
+        return annotations;
     }
 }

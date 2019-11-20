@@ -15,7 +15,7 @@ export default class WvFileBrowser extends LightningElement {
   @track searchTerm = '';
   @api listViewMode;
   @api cssMinHeight;
-  @track listViewMode = localStorage.getItem('PDFTron_wvFileBrowser_set1');
+  @track listViewMode = localStorage.getItem('PDFTron_wvFileBrowser_set1') || 'List View';
   @track leftSide;
   @track rightSide;
   @track thumbnails = {};
@@ -38,14 +38,17 @@ export default class WvFileBrowser extends LightningElement {
   @wire(getFileList, {searchTerm: '$searchTerm'})
   loadFiles(result) {
     if (result.data && result.data.files) {
+
       // console.log('%c loadFiles ', 'background: yellow; color: black;');
-      // console.log(JSON.parse(JSON.stringify(result.data)));
+      console.log(JSON.parse(JSON.stringify(result.data)));
       const { contentVersion_attachments = [], attachments = [], files } = result.data;
       this.files = files;
       for (let index = 0; index < contentVersion_attachments.length; index++) {
         const throughRecord = contentVersion_attachments[index];
-        const attachment = attachments.filter(item => item.Id === throughRecord.Attachment_Id__c);
-        this.thumbnails[throughRecord.Content_Version_Id__c] = 'data:image/png;base64,' + attachment[0].Body;
+        const attachment = attachments.filter(item => item.Id === throughRecord.Attachment_Id);
+        if (attachment && attachment.length) {
+          this.thumbnails[throughRecord.ContentVersion_Id] = 'data:image/png;base64,' + attachment[0].Body;
+        }
       }
       this.processFiles();
     }
@@ -69,7 +72,7 @@ export default class WvFileBrowser extends LightningElement {
       Name: result.id, 
       ContentVersionId: result.id,
       ContentType: 'png',
-      Body: result.data.replace('data:image/png;base64,', ''), })
+      Body: result.data.replace('data:image/png;base64,', ''), }) 
       //.then(console.log)
       .catch(this.showErrorMessage);
   }

@@ -3,8 +3,8 @@ import { LightningElement, wire, track, api } from 'lwc';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import { CurrentPageReference, NavigationMixin } from 'lightning/navigation';
 import { loadScript } from 'lightning/platformResourceLoader';
-import libUrl from '@salesforce/resourceUrl/lib';
-import myfilesUrl from '@salesforce/resourceUrl/webviewerFiles';
+import libUrl from '@salesforce/resourceUrl/pdftron_lib';
+import myfilesUrl from '@salesforce/resourceUrl/pdftron_webviewerFiles';
 import USER_ID from '@salesforce/user/Id';
 import { getRecord } from 'lightning/uiRecordApi';
 import NAME_FIELD from '@salesforce/schema/User.Name';
@@ -130,7 +130,10 @@ generateUrls() {
   }
   initUI() {
     let _this = this;
-    var myObj = { libUrl: libUrl };
+    var myObj = { 
+      libUrl: libUrl,
+      fullAPI: this.fullAPI || false,
+    };
     // var url = myfilesUrl + '/webviewer-demo-annotated.pdf';
     // var url = myfilesUrl + '/webviewer-demo-annotated.xod';
     // var url = myfilesUrl + '/word.docx';

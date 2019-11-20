@@ -12,7 +12,6 @@
     <navType>Standard</navType>
     <tabs>standard-File</tabs>
     <tabs>WebViewer</tabs>
-    <tabs>Test_PDF_Merge</tabs>
     <uiType>Lightning</uiType>
     <utilityBar>PDFTron_UtilityBar</utilityBar>
 </CustomApplication>

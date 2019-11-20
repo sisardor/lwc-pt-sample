@@ -1,16 +1,30 @@
-const resourceURL = '/resource/'
+var resourceURL = '/resource/'
 
-window.CoreControls.forceBackendType('ems');
-// office workers
-window.CoreControls.setOfficeWorkerPath(resourceURL + 'pdftron_office')
-window.CoreControls.setOfficeAsmPath(resourceURL + 'pdftron_officeAsm');
-window.CoreControls.setOfficeResourcePath(resourceURL + 'pdftron_officeResource');
-// pdf workers
-window.CoreControls.setPDFWorkerPath(resourceURL + 'pdftron_lean')
-window.CoreControls.setPDFResourcePath(resourceURL + 'pdftron_resource')
-window.CoreControls.setPDFAsmPath(resourceURL + 'pdftron_asm')
-// external 3rd party libraries
-window.CoreControls.setExternalPath(resourceURL + 'pdftron_external')
+window.addEventListener('viewerLoaded', () => {
+  custom = JSON.parse(readerControl.getCustomData());
+  console.log('viewerLoaded')
+  console.log(custom); // outputs 10
+  
+  window.CoreControls.forceBackendType('ems');
+  // office workers
+  window.CoreControls.setOfficeWorkerPath(resourceURL + 'pdftron_office')
+  window.CoreControls.setOfficeAsmPath(resourceURL + 'pdftron_officeAsm');
+  window.CoreControls.setOfficeResourcePath(resourceURL + 'pdftron_officeResource');
+  // pdf workers
+  window.CoreControls.setPDFWorkerPath(resourceURL + 'pdftron_lean')
+  window.CoreControls.setPDFResourcePath(resourceURL + 'pdftron_resource')
+  window.CoreControls.setPDFAsmPath(resourceURL + 'pdftron_asmLean')
+  // external 3rd party libraries
+  window.CoreControls.setExternalPath(resourceURL + 'pdftron_external')
+
+  if (custom.fullAPI) {
+    window.CoreControls.setPDFWorkerPath(resourceURL + 'pdftron_full')
+    window.CoreControls.setPDFAsmPath(resourceURL + 'pdftron_asmFull')
+  }
+});
+
+console.log('viewerLoaded after')
+
 
 
 let __documentId = null;

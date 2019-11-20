@@ -21,10 +21,12 @@
     border-left: none;
 }
 .THIS .custom-box:last-child,
+.THIS .flexipageComponent,
 .THIS [data-component-id="pdftronWebViewer"] {
     border-top-right-radius: 0.35rem;
 }
 .THIS .custom-box:first-child,
+.THIS .flexipageComponent,
 .THIS [data-component-id="wvFileBrowser"] {
     border-top-left-radius: 0.35rem;
 }
@@ -40,14 +42,16 @@
     }
 }
 
-
+.THIS .flexipageComponent,
 .THIS [data-component-id="wvFileBrowser"],
 .THIS [data-component-id="pdftronWebViewer"],
 .THIS [data-component-id="pdftronWebViewer"] .pdf_viewer,
+.THIS .flexipageComponent .pdf_viewer,
 .THIS .custom-box > div {
     height: 100%
 }
 
+.THIS .flexipageComponent,
 .THIS [data-component-id="wvFileBrowser"] {
     flex-grow: 1;
     position: relative;
@@ -56,6 +60,7 @@
     background: white;
 }
 
+.THIS .flexipageComponent .slds-card,
 .THIS [data-component-id="wvFileBrowser"] .slds-card {
     background: none;
     border: none;
