@@ -17,15 +17,13 @@
             ],
             "c/wvPubsub": [
                 "wvPubsub/wvPubsub.js"
-            ],
-            "c/testPDFMerge": [
-                "testPDFMerge/testPDFMerge.js"
             ]
         }
     },
     "include": [
         "**/*",
-        "../../../../.sfdx/typings/lwc/**/*.d.ts"
+        "../../../../.sfdx/typings/lwc/**/*.d.ts",
+        "../../../../../.sfdx/typings/lwc/**/*.d.ts"
     ],
     "typeAcquisition": {
         "include": [

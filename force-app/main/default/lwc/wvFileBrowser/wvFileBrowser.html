@@ -12,17 +12,7 @@
             <template if:false={isListViewMode}><lightning-menu-item value="List View" label="List View"></lightning-menu-item></template>
         </lightning-button-menu>
         <div class="FileGallery page" style={minHeight}>
-            <template if:false={isListViewMode}>
-                <div class="slds-tabs_default">
-                    <ul class="slds-tabs_default__nav" role="tablist">
-                        <template for:each={processedList} for:item="item">
-                            <li key={item.label} class={item.computedClass} title={item.label}  role="presentation" >
-                                <a class="slds-tabs_default__link" href="" onclick={handleSelectTab} data-tab={item.label}>{item.label}</a>
-                            </li>
-                        </template>
-                    </ul>
-                </div>
-            </template>
+
             <template if:true={isListViewMode}>
                 <div class="fg-search-box">
                     <lightning-input
@@ -33,6 +23,17 @@
                     ></lightning-input>
                 </div>
             </template>
+            <template if:false={isListViewMode}>
+              <div class="slds-tabs_default">
+                  <ul class="slds-tabs_default__nav" role="tablist">
+                      <template for:each={processedList} for:item="item">
+                          <li key={item.label} class={item.computedClass} title={item.label}  role="presentation" >
+                              <a class="slds-tabs_default__link" href="" onclick={handleSelectTab} data-tab={item.label}>{item.label}</a>
+                          </li>
+                      </template>
+                  </ul>
+              </div>
+          </template>
             <div class="flex-row">
                 <template if:true={isLoading}>
                     <div role="status" class="slds-spinner slds-spinner_medium">
@@ -40,6 +41,17 @@
                         <div class="slds-spinner__dot-a"></div>
                         <div class="slds-spinner__dot-b"></div>
                     </div>
+                </template>
+
+              
+                <template if:true={isListViewMode}>
+                  <div class="list-view">
+                      <template for:each={files} for:item="file">
+                          <c-wv-list-item key={file.Id} file={file}
+                              selected={selectedFileId}
+                              onselect={handleFileSelect}></c-wv-list-item>
+                      </template>
+                  </div>
                 </template>
                 <template if:false={isListViewMode}>
                     <template if:true={leftSide}>
@@ -66,15 +78,7 @@
                     </template>
                 </template>
 
-                <template if:true={isListViewMode}>
-                    <div class="list-view">
-                        <template for:each={files} for:item="file">
-                            <c-wv-list-item key={file.Id} file={file}
-                                selected={selectedFileId}
-                                onselect={handleFileSelect}></c-wv-list-item>
-                        </template>
-                    </div>
-                </template>
+
             </div>
         </div>
     </lightning-card>

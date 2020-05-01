@@ -2,6 +2,10 @@
 <FlexiPage xmlns="http://soap.sforce.com/2006/04/metadata">
     <flexiPageRegions>
         <componentInstances>
+            <componentInstanceProperties>
+                <name>listViewMode</name>
+                <value>List View</value>
+            </componentInstanceProperties>
             <componentName>wvFileBrowser</componentName>
         </componentInstances>
         <name>column1</name>
@@ -9,6 +13,22 @@
     </flexiPageRegions>
     <flexiPageRegions>
         <componentInstances>
+            <componentInstanceProperties>
+                <name>enableFilePicker</name>
+                <value>false</value>
+            </componentInstanceProperties>
+            <componentInstanceProperties>
+                <name>enableMeasurement</name>
+                <value>false</value>
+            </componentInstanceProperties>
+            <componentInstanceProperties>
+                <name>enableRedaction</name>
+                <value>false</value>
+            </componentInstanceProperties>
+            <componentInstanceProperties>
+                <name>fullAPI</name>
+                <value>false</value>
+            </componentInstanceProperties>
             <componentName>pdftronWebViewer</componentName>
         </componentInstances>
         <name>column2</name>

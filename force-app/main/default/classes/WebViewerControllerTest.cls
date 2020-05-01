@@ -53,7 +53,7 @@ private class WebViewerControllerTest {
 
         String annot2 = WebViewerController.saveAnnotations('action', contentVersion_1.Id, 'annotationId', 'xfdfString_new');
         System.assertNotEquals(annot2, 'Fail');
-        List<PDFTronAnnotations__c> res = WebViewerController.getAnnotations(contentVersion_1.Id);
+        List<Map<String,String>> res = WebViewerController.getAnnotations(contentVersion_1.Id);
         System.assertEquals(res.size(), 1, 'One record of PDFTronAnnotations__c created successfully');
 
         String annot3 = WebViewerController.saveAnnotations('delete', contentVersion_1.Id, 'annotationId', 'xfdfString_newdsfd');

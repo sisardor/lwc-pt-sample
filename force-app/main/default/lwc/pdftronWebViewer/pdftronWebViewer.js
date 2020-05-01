@@ -3,8 +3,8 @@ import { LightningElement, wire, track, api } from 'lwc';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import { CurrentPageReference, NavigationMixin } from 'lightning/navigation';
 import { loadScript } from 'lightning/platformResourceLoader';
-import libUrl from '@salesforce/resourceUrl/lib';
-import myfilesUrl from '@salesforce/resourceUrl/webviewerFiles';
+import libUrl from '@salesforce/resourceUrl/pdftron_lib';
+import myfilesUrl from '@salesforce/resourceUrl/pdftron_webviewerFiles';
 import USER_ID from '@salesforce/user/Id';
 import { getRecord } from 'lightning/uiRecordApi';
 import NAME_FIELD from '@salesforce/schema/User.Name';
@@ -82,6 +82,11 @@ generateUrls() {
     this.iframeWindow.postMessage({type: 'GENEREATE_THUMB', payload }, '*')
   }
   showErrorMessage(error) {
+    if (!error)  {
+      // eslint-disable-next-line no-console
+      console.error(error);
+      return;
+    }
     this.dispatchEvent(
       new ShowToastEvent({
         title: 'Error in WebViewer',
@@ -125,7 +130,11 @@ generateUrls() {
   }
   initUI() {
     let _this = this;
-    var myObj = { libUrl: libUrl };
+    var myObj = { 
+      libUrl: libUrl,
+      fullAPI: this.fullAPI || false,
+      namespacePrefix: 'pdftron__',
+    };
     // var url = myfilesUrl + '/webviewer-demo-annotated.pdf';
     // var url = myfilesUrl + '/webviewer-demo-annotated.xod';
     // var url = myfilesUrl + '/word.docx';
@@ -136,6 +145,7 @@ generateUrls() {
       path: libUrl, // path to the PDFTron 'lib' folder on your server
       custom: JSON.stringify(myObj),
       // initialDoc: url,
+      backendType: 'ems',
       preloadWorker: 'all',
       config: myfilesUrl + '/config.js',
       fullAPI: this.fullAPI,
