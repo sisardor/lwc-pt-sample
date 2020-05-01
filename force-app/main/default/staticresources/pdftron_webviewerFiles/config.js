@@ -3,8 +3,8 @@ window.CoreControls.forceBackendType('ems');
 
 window.addEventListener('viewerLoaded', () => {
   custom = JSON.parse(readerControl.getCustomData());
-  console.log('viewerLoaded')
-  console.log(custom); // outputs 10
+  // console.log('viewerLoaded')
+  // console.log(custom);
   const namespacePrefix = custom.namespacePrefix;
   resourceURL = resourceURL + namespacePrefix;
   // office workers
@@ -36,16 +36,16 @@ window.addEventListener('viewerLoaded', function() {
 
   var annotManager = docViewer.getAnnotationManager();
   // Save when annotation change event is triggered (adding, modifying or deleting of annotations)
-  annotManager.on('annotationChanged', function(annotations, action, event) {
+  annotManager.on('annotationChanged', async function(annotations, action, event) {
     if (event && event.imported) return;
-    const xfdfString = annotManager.getAnnotCommand();
+    const xfdfString = await annotManager.exportAnnotCommand();
     annotations.forEach(function(annot) {
-      savexfdfString(
-        { action, 
-          documentId: __documentId, 
-          annotationId: annot.Id,
-          xfdfString 
-        })
+      savexfdfString({
+        action,
+        documentId: __documentId,
+        annotationId: annot.Id,
+        xfdfString
+      })
     });
   });
 }, false);
@@ -89,7 +89,7 @@ function receiveMessage(event) {
             generateThumbnail(event.data.payload, resolve, reject);
           });
         }
-        
+
         break;
       case 'LOAD_ANNOTATIONS_FINISHED':
         drawAnnotations(event.data.result);
@@ -111,8 +111,8 @@ function _base64ToArrayBuffer(base64) {
 }
 
 function generateThumbnail(payload, resolve, reject) {
-  const { blobString, extension, name, id } = payload; 
-  var options = { 
+  const { blobString, extension, name, id } = payload;
+  var options = {
     l: window.sampleL/* license key here */,
     extension,
   };
@@ -149,8 +149,8 @@ function savexfdfString(payload) {
 
 function drawAnnotations(data) {
   var annotManager = docViewer.getAnnotationManager();
-  data.forEach(col => {
-    const annotations = annotManager.importAnnotCommand(col.xfdfString);
+  data.forEach(async (col) => {
+    const annotations = await annotManager.importAnnotCommand(col.xfdfString);
     annotManager.drawAnnotationsFromList(annotations);
   });
 }
